@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import Game from './components/Game.js';
 import './App.css';
 
 class App extends Component {
@@ -7,12 +7,13 @@ class App extends Component {
     return (
       <div className="App">
         <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
+          <h2>Tic Tac and Toeing...</h2>
         </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <section className="App-game">
+          <Game />
+        </section>  
+        <footer>
+        </footer>  
       </div>
     );
   }

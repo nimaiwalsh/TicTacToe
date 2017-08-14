@@ -1,6 +1,11 @@
 {
   "name": "tic-tac-toe",
   "version": "0.1.0",
+  "author": {
+    "name": "Nimai Walsh",
+    "email": "nimai@nimaiwalsh.com",
+    "url": "http://nimaiwalsh.com"
+  },
   "private": true,
   "homepage": "https://nimaiwalsh.github.io/TicTacToe/",
   "dependencies": {
