@@ -4,6 +4,7 @@
 .App {
   position: relative;
   background-color: rgb(42.3%, 71.8%, 42.3%);
+  padding: 20px;
 }
 
 .App-header {
@@ -53,6 +54,10 @@ ol, ul {
 
 .kbd-navigation .square:focus {
   background: #ddd;
+}
+
+.game {
+  display: inline-flex;
 }
 
 .game-info {
