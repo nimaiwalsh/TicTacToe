@@ -56,8 +56,15 @@ ol, ul {
   background: #ddd;
 }
 
+/*
+* ==== GAME COMPONENT === *
+*/
 .game {
   display: inline-flex;
+}
+
+.game-options {
+  display: inline-block;
 }
 
 .game-info {
