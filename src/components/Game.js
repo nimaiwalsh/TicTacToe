@@ -19,7 +19,7 @@ class Game extends React.Component {
     };
   }
 
-  //Using history, work with current squares and update history with new array
+  //Work with current squares and update history with new array
   //If the game is won or square is already filled, return
   //Determine weather X or O is next
   //Update state and add new moves as a new object in the history array 
@@ -53,24 +53,48 @@ class Game extends React.Component {
       setTimeout(() => {this.handleClick(drawSquare, false)}, 2000);
     }
 
-    //If player clicks centre go in corner square
-    if (current[4] === playerToken) {
-      const posMoves = [0, 2, 6, 8];
-      let move = posMoves[Math.floor(Math.random() * posMoves.length)];
+    const cornerSquares = [0, 2, 6, 8];
+    const twoInRow = [
+      //3rd item in array is computer move
+      [0,1,2],
+      [2,1,0],
+      [3,4,5],
+      [5,4,3],
+      [6,7,8],
+      [8,7,8],
+      [0,3,6],
+      [6,3,0],
+      [1,4,7],
+      [7,4,1],
+      [2,5,8],
+      [8,5,2],
+      [0,4,8],
+      [8,4,0],
+      [2,4,6],
+      [6,4,2]
+    ]
+    //If player clicks centre on first move go in corner square
+    if (current[4] === playerToken && this.state.stepNumber === 1) {
+      let move = cornerSquares[Math.floor(Math.random() * cornerSquares.length)];
       drawSquare(move);
     } 
-    //if player click corner square go in centre square
-    else if (
-      current[0] === playerToken || 
-      current[2] === playerToken ||
-      current[6] === playerToken ||
-      current[8] === playerToken
-    ) {  
-      drawSquare(4);
+    //If player click corner square on first move go in centre square
+    else if (this.state.stepNumber === 1) {
+      for (let i = 0; i < cornerSquares.length; i++){
+        if (current[cornerSquares[i]] === playerToken) {
+          drawSquare(4);
+        }
+      }
     }
-
-    //if player has 2 in a row, place in 3rd square
-   
+    //If player or computer has 2 in a row, place in 3rd square to win or block
+    else {
+      for (let i = 0; i < twoInRow.length; i++) {
+        const [a, b, c] = twoInRow[i];  
+        if (current[a] && current[a] === current[b]) {
+          drawSquare(c);
+        }
+      }
+    }
   }
 
   //Jump to an older move in the history by updating step number
