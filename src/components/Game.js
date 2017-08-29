@@ -92,13 +92,13 @@ class Game extends React.Component {
     if (move === null) {
       for (let i = 0; i < twoInRow.length; i++) {
         const [a, b, c] = twoInRow[i];  
-        if (current[a] && current[a] === current[b]) {
+        if (current[a] && current[a] === current[b] && current[c] === null) {
           move = c;
           break;
         }
       }
     }
-    //Place in random empty square (Player chance)
+    //If no abovve conditions met place in random empty square (Player chance)
     if (move === null) {
       const nullSquares = []
       current.map((val, pos) => {
@@ -107,9 +107,10 @@ class Game extends React.Component {
         } 
       });
       move = nullSquares[Math.floor(Math.random() * nullSquares.length)];
+      console.log(nullSquares);
     }
 
-    drawSquare(move);
+    return drawSquare(move);
   }
 
   //Jump to an older move in the history by updating step number
