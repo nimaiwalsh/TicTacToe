@@ -44,11 +44,13 @@ class Game extends React.Component {
     });
   }
 
+  //Run through possible scenarios and pass pos move to handleClick()
   computerMove() {
     const history = this.state.history;
     const current = history[history.length - 1].squares;
     const playerToken = this.state.playerToken;
-    
+    let move = null;
+
     const drawSquare = (drawSquare) => {
       setTimeout(() => {this.handleClick(drawSquare, false)}, 2000);
     }
@@ -71,30 +73,43 @@ class Game extends React.Component {
       [0,4,8],
       [8,4,0],
       [2,4,6],
-      [6,4,2]
+      [6,4,2],
     ]
     //If player clicks centre on first move go in corner square
     if (current[4] === playerToken && this.state.stepNumber === 1) {
-      let move = cornerSquares[Math.floor(Math.random() * cornerSquares.length)];
-      drawSquare(move);
+      move = cornerSquares[Math.floor(Math.random() * cornerSquares.length)];
     } 
-    //If player click corner square on first move go in centre square
+    //If player clicks corner square on first move go in centre square
     else if (this.state.stepNumber === 1) {
       for (let i = 0; i < cornerSquares.length; i++){
         if (current[cornerSquares[i]] === playerToken) {
-          drawSquare(4);
+          move = 4;
+          break;
         }
       }
     }
     //If player or computer has 2 in a row, place in 3rd square to win or block
-    else {
+    if (move === null) {
       for (let i = 0; i < twoInRow.length; i++) {
         const [a, b, c] = twoInRow[i];  
         if (current[a] && current[a] === current[b]) {
-          drawSquare(c);
+          move = c;
+          break;
         }
       }
     }
+    //Place in random empty square (Player chance)
+    if (move === null) {
+      const nullSquares = []
+      current.map((val, pos) => {
+        if (!val) {
+          nullSquares.push(pos);
+        } 
+      });
+      move = nullSquares[Math.floor(Math.random() * nullSquares.length)];
+    }
+
+    drawSquare(move);
   }
 
   //Jump to an older move in the history by updating step number
