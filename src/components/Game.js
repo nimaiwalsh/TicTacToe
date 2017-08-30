@@ -1,5 +1,6 @@
 import React from 'react';
 import Board from './Board.js';
+import GameOptions from './GameOptions.js';
 
 class Game extends React.Component {
 
@@ -42,6 +43,20 @@ class Game extends React.Component {
       stepNumber: history.length,
       computerMove: computerMove,
     });
+  }
+  //Set player token and next move token
+  handleClick2(bool) {
+    if (bool) {
+      this.setState({
+        xIsNext: bool, 
+        playerToken: 'X'
+      })
+    } else {
+        this.setState({
+        xIsNext: bool, 
+        playerToken: 'O'
+      })
+    }
   }
 
   //Run through possible scenarios and pass pos move to handleClick()
@@ -98,7 +113,7 @@ class Game extends React.Component {
         }
       }
     }
-    //If no abovve conditions met place in random empty square (Player chance)
+    //If no above conditions met place in random empty square (Player chance)
     if (move === null) {
       const nullSquares = []
       current.map((val, pos) => {
@@ -124,6 +139,10 @@ class Game extends React.Component {
 
   //Determine the winning sequence
   calculateWinner(squares) {
+    let winner = null;
+    const playerToken = this.state.playerToken;
+    const computerToken = (playerToken === 'X') ? 'O' : 'X';
+    let winMessage = '';
     const winningLines = [
       [0, 1, 2],
       [3, 4, 5],
@@ -134,45 +153,62 @@ class Game extends React.Component {
       [0, 4, 8],
       [2, 4, 6]
     ];
+    
     //Loop through the winning combinations and make sure all squares in combo are equal
     for(let i = 0; i < winningLines.length; i++) {
       const [a, b, c] = winningLines[i]; /*Destructure each array into variables*/
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        return squares[a];
+        winner = squares[a];
       }
     }
-    return null;
+    //If all sequares taken and no winner return draw;
+    if(this.state.stepNumber === 9){
+      winner = 'Draw';
+    }
+    console.log(computerToken);
+    //Determine the correct winMessage to pass to {status}
+    if (winner === this.state.playerToken) {
+      winMessage = `Player One (${winner}) Wins`;
+    } else if (winner === computerToken && this.state.onePlayer) {
+        winMessage = `Computer (${winner}) Wins`;
+      } else if (winner === computerToken && !this.state.onePlayer){
+          winMessage = `Player Two (${winner}) Wins`;
+      } else if (winner === 'Draw') {
+          winMessage = `It's a Draw`;
+      } 
+
+    return winMessage
   }
 
   render() {
     //Determine One player mode and start computer turn
-    if(this.state.onePlayer && this.state.computerMove) {
+    if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
       this.computerMove()
     };
     //Assign current move from history to display correct squares
     const history = this.state.history;
     const current = history[this.state.stepNumber];
 
-    //After each move, see if there is a winner else alternate player
+    //After each move, see if there is a winner or show next player
     const winner = this.calculateWinner(current.squares);
     let status;
     if (winner) {
-      status = `Winner: ${winner}`;
+      status = winner;
     } else {
       status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
-    }
+    } 
 
     //Show the history of each move and jumpTo a previous move on click
     const moves = this.state.history.map((step, move) => {
       const moveDesc = move ? `Move Number: ${move}` : 'Game start';
       return (
         <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{moveDesc}</a>
+          <button onClick={() => this.jumpTo(move)}>{moveDesc}</button>
         </li>
       );
     });
 
-    //Show players
+    //Show player turn
     let players = null;
     (this.state.onePlayer) ? players = 'One Player' : players = 'Two Players';
 
@@ -185,23 +221,10 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-options">
-          <div className="game-options-player">
-            <p>Game type</p>
-            <button onClick={() => {this.setState({onePlayer: true})}}>One Player</button>
-            <button onClick={() => {this.setState({onePlayer: false})}}>Two Player</button>
-            <p>Would you like to be</p>
-          </div>
-          <div className="game-options-icon">
-            <button onClick={() => {this.setState({
-              xIsNext: true, 
-              playerToken: 'X'
-            })}}>X</button>
-            or
-            <button onClick={() => {this.setState({
-              xIsNext: false,
-              playerToken: 'O'
-            })}}>0</button>
-          </div>
+          <GameOptions 
+            handleClick={(bool) => this.setState({onePlayer: bool})}
+            onClick={(bool) => this.handleClick2(bool)}
+          />
         </div>
         <div className="game-info">
           <div>{players}</div>
