@@ -1,6 +1,7 @@
 import React from 'react';
 
 const GameOptions = (props) => {
+  
   return (
     <div>
       <div className="game-options-player">
@@ -14,6 +15,7 @@ const GameOptions = (props) => {
         or
         <button onClick={() => props.onClick(false)}>0</button>
       </div>
+        <button onClick={() => props.onClick2()}>Start Game</button>
     </div>
   );
 }

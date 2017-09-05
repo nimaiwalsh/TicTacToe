@@ -2,9 +2,10 @@
 * === APP STYLING === *
 */
 .App {
-  position: relative;
   background-color: rgb(42.3%, 71.8%, 42.3%);
   padding: 20px;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .App-header {
@@ -15,22 +16,15 @@
 .App-game {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 /*
-* ==== COMPONENT STYLING === *
+* ==== SQUARE COMPONENT === *
 */
-ol, ul {
-  padding-left: 30px;
-}
-
 .board-row:after {
   clear: both;
   content: "";
   display: table;
-}
-
-.status {
-  margin-bottom: 10px;
 }
 
 .square {
@@ -55,18 +49,46 @@ ol, ul {
 .kbd-navigation .square:focus {
   background: #ddd;
 }
+/*
+* ==== BOARD COMPONENT === *
+*/
 
 /*
 * ==== GAME COMPONENT === *
 */
-.game {
+ .game {
   display: inline-flex;
-}
-
-.game-options {
-  display: inline-block;
-}
+} 
 
 .game-info {
   margin-left: 20px;
+}
+
+.status {
+  margin-bottom: 10px;
+}
+/* ==== GAME OPTIONS COMPONENT*/
+/*Modal support for Game Options*/ 
+.overlay { 
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 10;
+}
+  
+.game-options {
+    width: 300px;
+    height: 200px;
+    position: fixed;
+    top: 50%; 
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -150px;
+    background-color: #f1c40f;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 11; /* 1px higher than the overlay layer */
 }

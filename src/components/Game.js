@@ -180,6 +180,13 @@ class Game extends React.Component {
     return winMessage
   }
 
+  hideGameOptions() {
+   let overlay = document.getElementsByClassName('overlay')[0];
+   let gameoptions = document.getElementsByClassName('game-options')[0];
+   overlay.style.display = 'none';
+   gameoptions.style.display = 'none';
+  }
+
   render() {
     //Determine One player mode and start computer turn
     if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
@@ -224,6 +231,7 @@ class Game extends React.Component {
           <GameOptions 
             handleClick={(bool) => this.setState({onePlayer: bool})}
             onClick={(bool) => this.handleClick2(bool)}
+            onClick2={() => this.hideGameOptions()}
           />
         </div>
         <div className="game-info">
