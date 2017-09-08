@@ -1,12 +1,16 @@
-html, body {
+html {
   height: 100%;
-  min-height: 100%;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
 }
 
 body {
-  margin: 0;
-  padding: 0;
-  font: 14px "Century Gothic", Futura, sans-serif;
+  height: 100%;
+  font: 16px "Century Gothic", Futura, sans-serif;
+  background-color: #41C3AC;
 }
 
 /*Display the App content in the centre of the page*/
@@ -14,7 +18,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 100%; 
 }
 
 

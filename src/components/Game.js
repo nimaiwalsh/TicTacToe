@@ -180,11 +180,17 @@ class Game extends React.Component {
     return winMessage
   }
 
-  hideGameOptions() {
+  //Remove the GameOptions Modal after clicking Start Game
+  toggleGameOptions(display) {
    let overlay = document.getElementsByClassName('overlay')[0];
    let gameoptions = document.getElementsByClassName('game-options')[0];
-   overlay.style.display = 'none';
-   gameoptions.style.display = 'none';
+   if(display) {
+     overlay.style.display = 'none';
+     gameoptions.style.display = 'none';
+   } else {
+      overlay.style.display = 'block';
+      gameoptions.style.display = 'block';
+   }
   }
 
   render() {
@@ -221,6 +227,11 @@ class Game extends React.Component {
 
     return (
       <div className="game">
+        <div className="game-info">
+          <div>{players}</div>
+          <div>{status}</div>
+          <ol>{moves}</ol>
+        </div>
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -231,13 +242,8 @@ class Game extends React.Component {
           <GameOptions 
             handleClick={(bool) => this.setState({onePlayer: bool})}
             onClick={(bool) => this.handleClick2(bool)}
-            onClick2={() => this.hideGameOptions()}
+            onClick2={() => this.toggleGameOptions(true)}
           />
-        </div>
-        <div className="game-info">
-          <div>{players}</div>
-          <div>{status}</div>
-          <ol>{moves}</ol>
         </div>
       </div>
     );

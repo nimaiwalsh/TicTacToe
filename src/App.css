@@ -1,11 +1,14 @@
-/*
-* === APP STYLING === *
+/* colors 
+aqua: #41C3AC; 
+orange: #FF884D;
+lightblue: #81B9C3;
 */
+
+
 .App {
-  background-color: rgb(42.3%, 71.8%, 42.3%);
+  background-color: #81B9C3;
   padding: 20px;
   width: 80%;
-  margin: 0 auto;
 }
 
 .App-header {
@@ -58,19 +61,18 @@
 */
  .game {
   display: inline-flex;
+  width: 100%;
+  height: 300px;
 } 
 
 .game-info {
-  margin-left: 20px;
+  width: 40%;
 }
 
-.status {
-  margin-bottom: 10px;
-}
 /* ==== GAME OPTIONS COMPONENT*/
 /*Modal support for Game Options*/ 
 .overlay { 
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     height: 100%;
@@ -78,17 +80,46 @@
     background-color: rgba(0,0,0,0.5);
     z-index: 10;
 }
-  
+
 .game-options {
-    width: 300px;
-    height: 200px;
+    width: 300px; 
+    height: 330px; 
+    padding: 15px;
     position: fixed;
     top: 50%; 
     left: 50%;
-    margin-top: -100px;
-    margin-left: -150px;
-    background-color: #f1c40f;
+    margin-top: -165px;
+    margin-left: -150px; 
+    background-color: #FF884D;
     border-radius: 5px;
     text-align: center;
     z-index: 11; /* 1px higher than the overlay layer */
+}
+
+.game-options button {
+  border: 0 none;
+  margin: 2px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-shadow: 2px 2px 5px #999;
+  background-color: #32526E;
+  color: white;
+}
+
+.game-options button:hover {
+  transition: all 60ms ease;
+  opacity: 0.85;
+}
+
+.game-options button:focus {
+  background-color: black;
+  outline: none;
+}
+
+.game-options .start-game-btn {
+  margin-top:20px; 
+  background-color: #41C3AC;
+  font-size: 1.5rem;
 }
