@@ -16,7 +16,11 @@ class Game extends React.Component {
       stepNumber: 0,
       onePlayer: true,
       computerMove: false,
-      playerToken: 'X'
+      playerOneToken: 'X',
+      winsTally: {
+        playerOne: 0,
+        otherPlayer: 0
+      }
     };
   }
 
@@ -49,12 +53,12 @@ class Game extends React.Component {
     if (bool) {
       this.setState({
         xIsNext: bool, 
-        playerToken: 'X'
+        playerOneToken: 'X'
       })
     } else {
         this.setState({
         xIsNext: bool, 
-        playerToken: 'O'
+        playerOneToken: 'O'
       })
     }
   }
@@ -63,7 +67,7 @@ class Game extends React.Component {
   computerMove() {
     const history = this.state.history;
     const current = history[history.length - 1].squares;
-    const playerToken = this.state.playerToken;
+    const playerOneToken = this.state.playerOneToken;
     let move = null;
 
     const drawSquare = (drawSquare) => {
@@ -91,13 +95,13 @@ class Game extends React.Component {
       [6,4,2],
     ]
     //If player clicks centre on first move go in corner square
-    if (current[4] === playerToken && this.state.stepNumber === 1) {
+    if (current[4] === playerOneToken && this.state.stepNumber === 1) {
       move = cornerSquares[Math.floor(Math.random() * cornerSquares.length)];
     } 
     //If player clicks corner square on first move go in centre square
     else if (this.state.stepNumber === 1) {
       for (let i = 0; i < cornerSquares.length; i++){
-        if (current[cornerSquares[i]] === playerToken) {
+        if (current[cornerSquares[i]] === playerOneToken) {
           move = 4;
           break;
         }
@@ -122,7 +126,6 @@ class Game extends React.Component {
         } 
       });
       move = nullSquares[Math.floor(Math.random() * nullSquares.length)];
-      console.log(nullSquares);
     }
 
     return drawSquare(move);
@@ -140,8 +143,8 @@ class Game extends React.Component {
   //Determine the winning sequence
   calculateWinner(squares) {
     let winner = null;
-    const playerToken = this.state.playerToken;
-    const computerToken = (playerToken === 'X') ? 'O' : 'X';
+    const playerOneToken = this.state.playerOneToken;
+    const computerToken = (playerOneToken === 'X') ? 'O' : 'X';
     let winMessage = '';
     const winningLines = [
       [0, 1, 2],
@@ -161,13 +164,14 @@ class Game extends React.Component {
         winner = squares[a];
       }
     }
+
     //If all sequares taken and no winner return draw;
-    if(this.state.stepNumber === 9){
+    if(this.state.stepNumber === 9 && !winner){
       winner = 'Draw';
     }
-    console.log(computerToken);
+
     //Determine the correct winMessage to pass to {status}
-    if (winner === this.state.playerToken) {
+    if (winner === this.state.playerOneToken) {
       winMessage = `Player One (${winner}) Wins`;
     } else if (winner === computerToken && this.state.onePlayer) {
         winMessage = `Computer (${winner}) Wins`;
@@ -177,7 +181,31 @@ class Game extends React.Component {
           winMessage = `It's a Draw`;
       } 
 
-    return winMessage
+    return winMessage;
+  }
+
+  //Increment winsTally state and restart a new round
+  newRound(winner) {
+    let winnerTally = Object.assign({}, this.state.winsTally);
+    setTimeout(() => {
+      this.setState({
+        history: [
+          {
+            squares: Array(9).fill(null)
+          }
+        ],
+        stepNumber: 0,
+      });
+      if(winner.includes('Player One')) {
+        winnerTally.playerOne += 1;
+        this.setState({winsTally: winnerTally});
+      } else if(winner.includes('Draw')) {
+        return;
+      } else {
+        winnerTally.otherPlayer += 1;
+        this.setState({winsTally: winnerTally});
+      }
+    }, 2500);
   }
 
   //Remove the GameOptions Modal after clicking Start Game
@@ -207,6 +235,7 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = winner;
+      this.newRound(winner);
     } else {
       status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
     } 
@@ -226,17 +255,23 @@ class Game extends React.Component {
     (this.state.onePlayer) ? players = 'One Player' : players = 'Two Players';
 
     return (
-      <div className="game">
+      <div>
         <div className="game-info">
           <div>{players}</div>
           <div>{status}</div>
-          <ol>{moves}</ol>
+          <div className="game-info-count">
+            <div>Player One: {this.state.winsTally.playerOne}</div>
+            <div>Player Two: {this.state.winsTally.otherPlayer}</div>
+          </div>
         </div>
         <div className="game-board">
           <Board
             squares={current.squares}
             onClick={(i) => this.handleClick(i, true)}
           />
+        </div>
+        <div className="game-moves">
+            <ol>{moves}</ol>
         </div>
         <div className="game-options">
           <GameOptions 

@@ -3,8 +3,6 @@ aqua: #41C3AC;
 orange: #FF884D;
 lightblue: #81B9C3;
 */
-
-
 .App {
   background-color: #81B9C3;
   padding: 20px;
@@ -20,6 +18,7 @@ lightblue: #81B9C3;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 /*
 * ==== SQUARE COMPONENT === *
@@ -59,17 +58,29 @@ lightblue: #81B9C3;
 /*
 * ==== GAME COMPONENT === *
 */
- .game {
-  display: inline-flex;
-  width: 100%;
-  height: 300px;
-} 
 
 .game-info {
-  width: 40%;
+  text-align: center;
 }
 
-/* ==== GAME OPTIONS COMPONENT*/
+.game-moves {
+  padding: 0;
+  height: 200px;
+}
+
+.game-moves ol {
+  margin: 0;
+  padding: 0;
+}
+
+.game-moves li{
+  list-style-type: none;
+}
+
+.game-board {
+  display: inline-flex;
+}
+/* ==== GAME OPTIONS COMPONENT ====*/
 /*Modal support for Game Options*/ 
 .overlay { 
     position: fixed;

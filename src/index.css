@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,400');
 html {
   height: 100%;
   box-sizing: border-box;
@@ -9,7 +10,8 @@ html {
 
 body {
   height: 100%;
-  font: 16px "Century Gothic", Futura, sans-serif;
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
   background-color: #41C3AC;
 }
 
