@@ -221,6 +221,21 @@ class Game extends React.Component {
    }
   }
 
+  //Determines the next player to update status
+  nextPlayer() {
+    let token;
+    let player;
+    (this.state.xIsNext) ? token='X' : token='O';
+    if(token === this.state.playerOneToken) {
+      player = 'Player One';
+    } else if (this.state.onePlayer && this.state.playerOneToken !== token) {
+      player = 'Computer';
+    } else {
+      player = 'Player Two';
+    }
+    return player;
+  }
+
   render() {
     //Determine One player mode and start computer turn
     if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
@@ -232,12 +247,13 @@ class Game extends React.Component {
 
     //After each move, see if there is a winner or show next player
     const winner = this.calculateWinner(current.squares);
+    const player = this.nextPlayer();
     let status;
     if (winner) {
       status = winner;
       this.newRound(winner);
     } else {
-      status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+      status = `${player}'s Turn`;
     } 
 
     //Show the history of each move and jumpTo a previous move on click
