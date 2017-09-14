@@ -2,6 +2,7 @@
 aqua: #41C3AC; 
 orange: #FF884D;
 lightblue: #81B9C3;
+darkblye: #32526E;
 */
 .App {
   background-color: #81B9C3;
@@ -21,46 +22,61 @@ lightblue: #81B9C3;
   position: relative;
 }
 /*
-* ==== SQUARE COMPONENT === *
+* ==== SQUARE and BOARD COMPONENT === *
 */
-.board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+.board {
+  background-color: #FF884D;
+  width: 260px;
+  height: 260px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow:  -5px 7px 15px 7px #999;
+  
 }
 
-.square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
+ .board-row:after {
+  clear: both;
+  content: "";
+  display: table; 
+} 
+
+ .square {
+  background: #32526E; 
+  border: 1px solid #FF884D;
+  color: white;
+  float: left; 
+  font-size: 2.5rem;
   font-weight: bold;
-  line-height: 34px;
-  height: 50px;
+  line-height: 34px;  
+  height: 80px; 
+  width: 80px;
   margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 50px;
-}
+  margin-top: -1px; 
+  padding: 0; 
+  text-align: center; 
+} 
 
 .square:focus {
   outline: none;
 }
 
-.kbd-navigation .square:focus {
-  background: #ddd;
-}
-/*
-* ==== BOARD COMPONENT === *
-*/
-
 /*
 * ==== GAME COMPONENT === *
 */
-
 .game-info {
   text-align: center;
+}
+.game-info > div:nth-of-type(2) {
+  font-size: 1.6rem;
+  margin: 10px;
+}
+
+.game-info-count > div {
+  display: inline-block;
+}
+.game-info-count > div:first-child {
+  margin-right: 50px;
 }
 
 .game-moves {

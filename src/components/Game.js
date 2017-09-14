@@ -236,6 +236,27 @@ class Game extends React.Component {
     return player;
   }
 
+  //Hard reset the game and display game options
+  resetAll() {
+    this.toggleGameOptions(false);
+    this.setState({
+       history: [
+        {
+          squares: Array(9).fill(null)
+        }
+      ],
+      xIsNext: true,
+      stepNumber: 0,
+      onePlayer: true,
+      computerMove: false,
+      playerOneToken: 'X',
+      winsTally: {
+        playerOne: 0,
+        otherPlayer: 0
+      }
+    });      
+  }
+
   render() {
     //Determine One player mode and start computer turn
     if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
@@ -285,6 +306,9 @@ class Game extends React.Component {
             squares={current.squares}
             onClick={(i) => this.handleClick(i, true)}
           />
+        </div>
+        <div className="reset-all">
+          <button onClick={() => this.resetAll()}>RESET ALL</button>
         </div>
         <div className="game-moves">
             <ol>{moves}</ol>
