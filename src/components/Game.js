@@ -9,7 +9,8 @@ class Game extends React.Component {
     this.state = {
       history: [
         {
-          squares: Array(9).fill(null)
+          squares: Array(9).fill(null),
+          xIsnext: true,
         }
       ],
       xIsNext: true,
@@ -40,7 +41,8 @@ class Game extends React.Component {
     this.setState({
       history: history.concat(
         {
-          squares: squares
+          squares: squares,
+          xIsnext: this.state.xIsNext,
         }
       ),
       xIsNext: !this.state.xIsNext,
@@ -48,9 +50,11 @@ class Game extends React.Component {
       computerMove: computerMove,
     });
   }
-  //Set player token and next move token
+  //Set player token and next move token for GameOptions
   handleClick2(bool) {
-    if (bool) {
+    let history = this.state.history;
+    history[0].xIsnext = bool;
+    if (bool) {;
       this.setState({
         xIsNext: bool, 
         playerOneToken: 'X'
@@ -58,7 +62,8 @@ class Game extends React.Component {
     } else {
         this.setState({
         xIsNext: bool, 
-        playerOneToken: 'O'
+        playerOneToken: 'O',
+        history: history,
       })
     }
   }
@@ -133,10 +138,11 @@ class Game extends React.Component {
 
   //Jump to an older move in the history by updating step number
   jumpTo(move) {
+    //If player token = x and xIsnext = false
+    //If player token is 0 
     this.setState({
       stepNumber: move,
-      //X is next on all even numbers
-      xIsNext: (move % 2) === 0,
+      xIsNext: this.state.history[move].xIsnext,
     });
   }
 
@@ -191,7 +197,8 @@ class Game extends React.Component {
       this.setState({
         history: [
           {
-            squares: Array(9).fill(null)
+            squares: Array(9).fill(null),
+            xIsnext: this.state.xIsNext,
           }
         ],
         stepNumber: 0,
@@ -257,11 +264,15 @@ class Game extends React.Component {
     });      
   }
 
-  render() {
+  componentDidUpdate () {
     //Determine One player mode and start computer turn
     if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
       this.computerMove()
     };
+  }
+
+  render() {
+
     //Assign current move from history to display correct squares
     const history = this.state.history;
     const current = history[this.state.stepNumber];
@@ -282,12 +293,12 @@ class Game extends React.Component {
       const moveDesc = move ? `Move Number: ${move}` : 'Game start';
       return (
         <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{moveDesc}</button>
+          <span onClick={() => this.jumpTo(move)}>{moveDesc}</span>
         </li>
       );
     });
 
-    //Show player turn
+    //Show game mode
     let players = null;
     (this.state.onePlayer) ? players = 'One Player' : players = 'Two Players';
 
@@ -297,8 +308,8 @@ class Game extends React.Component {
           <div>{players}</div>
           <div>{status}</div>
           <div className="game-info-count">
-            <div>Player One: {this.state.winsTally.playerOne}</div>
-            <div>Player Two: {this.state.winsTally.otherPlayer}</div>
+            <div>Player One: <span>{this.state.winsTally.playerOne}</span></div>
+            <div>Player Two: <span>{this.state.winsTally.otherPlayer}</span></div>
           </div>
         </div>
         <div className="game-board">
@@ -311,11 +322,14 @@ class Game extends React.Component {
           <button onClick={() => this.resetAll()}>RESET ALL</button>
         </div>
         <div className="game-moves">
-            <ol>{moves}</ol>
+          <p>Game history</p>
+          <ol>{moves}</ol>
         </div>
         <div className="game-options">
           <GameOptions 
             handleClick={(bool) => this.setState({onePlayer: bool})}
+            gameMode={this.state.onePlayer}
+            playerOneToken={this.state.playerOneToken}
             onClick={(bool) => this.handleClick2(bool)}
             onClick2={() => this.toggleGameOptions(true)}
           />

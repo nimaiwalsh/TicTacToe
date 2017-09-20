@@ -5,7 +5,6 @@ lightblue: #81B9C3;
 darkblye: #32526E;
 */
 .App {
-  background-color: #81B9C3;
   padding: 20px;
   width: 80%;
 }
@@ -13,6 +12,12 @@ darkblye: #32526E;
 .App-header {
   display: flex;
   justify-content: center;
+}
+
+.App-header > h2 {
+  font-size: 2rem;
+  color: #FF884D;
+  text-shadow: 0 0 10px white;
 }
 
 .App-game {
@@ -70,18 +75,63 @@ darkblye: #32526E;
 .game-info > div:nth-of-type(2) {
   font-size: 1.6rem;
   margin: 10px;
+  color: #FFF;
+  text-shadow: 5px 5px 10px #FF884D;
 }
 
 .game-info-count > div {
   display: inline-block;
+  margin: 5px;
 }
 .game-info-count > div:first-child {
-  margin-right: 50px;
+  margin-right: 55px;
+}
+
+.game-info-count span {
+  color: #FFF;
+  text-shadow: 5px 5px 10px #FF884D;
+}
+
+.game-board {
+  display: inline-flex;
+}
+
+.reset-all {
+  text-align: center;
+}
+
+.reset-all button {
+  border: 0 none;
+  margin: 5px;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-shadow: 2px 2px 5px #999;
+  background-color: #32526E;
+  color: white;
+}
+
+.reset-all button:hover {
+  transition: all 60ms ease;
+  opacity: 0.85;
+}
+
+.reset-all button:focus {
+  outline: none;
 }
 
 .game-moves {
   padding: 0;
   height: 200px;
+  text-align: center;
+}
+
+.game-moves p {
+  font-size: 1.2rem;
+  color: white;
+  padding: 0;
+  margin: 5px 0;
 }
 
 .game-moves ol {
@@ -91,11 +141,13 @@ darkblye: #32526E;
 
 .game-moves li{
   list-style-type: none;
+  cursor: pointer;
+  transition: all ease-in 100ms;
+}
+.game-moves li:hover {
+  color: #FF884D;
 }
 
-.game-board {
-  display: inline-flex;
-}
 /* ==== GAME OPTIONS COMPONENT ====*/
 /*Modal support for Game Options*/ 
 .overlay { 
@@ -141,7 +193,6 @@ darkblye: #32526E;
 }
 
 .game-options button:focus {
-  background-color: black;
   outline: none;
 }
 
@@ -149,4 +200,15 @@ darkblye: #32526E;
   margin-top:20px; 
   background-color: #41C3AC;
   font-size: 1.5rem;
+}
+
+.game-options p {
+  font-size: 1.5rem;
+  color: white;
+  margin: 0 0 5px 0;
+}
+
+.game-options h3 {
+  margin: 10px 0;
+  color: #32526E;
 }
