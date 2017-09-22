@@ -62,6 +62,10 @@ darkblye: #32526E;
   text-align: center; 
 } 
 
+.square-on {
+  background: orangered;
+}
+
 .square:focus {
   outline: none;
 }

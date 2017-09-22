@@ -21,7 +21,7 @@ class Game extends React.Component {
       winsTally: {
         playerOne: 0,
         otherPlayer: 0
-      }
+      },
     };
   }
 
@@ -138,11 +138,9 @@ class Game extends React.Component {
 
   //Jump to an older move in the history by updating step number
   jumpTo(move) {
-    //If player token = x and xIsnext = false
-    //If player token is 0 
     this.setState({
       stepNumber: move,
-      xIsNext: this.state.history[move].xIsnext,
+      xIsNext: !this.state.history[move].xIsnext,
     });
   }
 
@@ -168,6 +166,7 @@ class Game extends React.Component {
       const [a, b, c] = winningLines[i]; /*Destructure each array into variables*/
       if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
         winner = squares[a];
+        this.winningSquares(winningLines[i]);
       }
     }
 
@@ -190,10 +189,21 @@ class Game extends React.Component {
     return winMessage;
   }
 
+  //Toggle and highlight winning square combination
+  winningSquares(squares) {
+    const square = document.querySelectorAll(`.square${squares[0]}, .square${squares[1]}, .square${squares[2]}`);
+    square.forEach((square) => square.classList.toggle("square-on")); 
+  }
+
   //Increment winsTally state and restart a new round
   newRound(winner) {
     let winnerTally = Object.assign({}, this.state.winsTally);
     setTimeout(() => {
+      //Turn off highlighted squares
+      const squares = document.querySelectorAll('.square-on');
+      squares.forEach((square) => square.classList.toggle("square-on"));
+      
+      //increment the winnerTally
       this.setState({
         history: [
           {
@@ -212,7 +222,7 @@ class Game extends React.Component {
         winnerTally.otherPlayer += 1;
         this.setState({winsTally: winnerTally});
       }
-    }, 2500);
+    }, 3000);
   }
 
   //Remove the GameOptions Modal after clicking Start Game
@@ -272,7 +282,6 @@ class Game extends React.Component {
   }
 
   render() {
-
     //Assign current move from history to display correct squares
     const history = this.state.history;
     const current = history[this.state.stepNumber];
