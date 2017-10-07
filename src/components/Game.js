@@ -48,8 +48,10 @@ class Game extends React.Component {
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length,
       computerMove: computerMove,
-    });
+    }, this.computerMove);
   }
+
+
   //Set player token and next move token for GameOptions
   handleClick2(bool) {
     let history = this.state.history;
@@ -70,6 +72,7 @@ class Game extends React.Component {
 
   //Run through possible scenarios and pass pos move to handleClick()
   computerMove() {
+  if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
     const history = this.state.history;
     const current = history[history.length - 1].squares;
     const playerOneToken = this.state.playerOneToken;
@@ -134,6 +137,7 @@ class Game extends React.Component {
     }
 
     return drawSquare(move);
+  }
   }
 
   //Jump to an older move in the history by updating step number
@@ -202,17 +206,17 @@ class Game extends React.Component {
       //Turn off highlighted squares
       const squares = document.querySelectorAll('.square-on');
       squares.forEach((square) => square.classList.toggle("square-on"));
-      
-      //increment the winnerTally
+      //Restart the history
       this.setState({
         history: [
           {
             squares: Array(9).fill(null),
-            xIsnext: this.state.xIsNext,
+            xIsnext: !this.state.xIsNext,
           }
         ],
         stepNumber: 0,
       });
+      //increment the winnerTally
       if(winner.includes('Player One')) {
         winnerTally.playerOne += 1;
         this.setState({winsTally: winnerTally});
@@ -222,6 +226,8 @@ class Game extends React.Component {
         winnerTally.otherPlayer += 1;
         this.setState({winsTally: winnerTally});
       }
+
+      this.computerMove();
     }, 3000);
   }
 
@@ -274,14 +280,12 @@ class Game extends React.Component {
     });      
   }
 
-  componentDidUpdate () {
-    //Determine One player mode and start computer turn
-    if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
-      this.computerMove()
-    };
-  }
-
   render() {
+    //Computer move
+    // if(this.state.onePlayer && this.state.computerMove && this.state.stepNumber < 9) {
+    //   this.computerMove()
+    // };
+
     //Assign current move from history to display correct squares
     const history = this.state.history;
     const current = history[this.state.stepNumber];
